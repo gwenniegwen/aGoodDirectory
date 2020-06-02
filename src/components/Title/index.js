@@ -11,6 +11,7 @@ function Title(props) {
         <input type="text" className="form-control-lg" placeholder="Search Employee(first name)" onChange={props.handleChange} />
       </form>
 
+
     </div>
   );
 }
