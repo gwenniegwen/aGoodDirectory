@@ -3,11 +3,14 @@ import React, { Component } from "react";
 import EmployeeCard from "./components/EmployeeCard";
 import Wrapper from "./components/Wrapper";
 import Title from "./components/Title";
+// import Form from "./components/Form"
 import API from "./utils/API";
 
 class App extends Component {
   state = {
-    employees: []
+    employees: [],
+    filteredEmps: [],
+    sortOrder: 1
   };
 
   componentDidMount() {
@@ -26,37 +29,80 @@ class App extends Component {
         return empOBJ
       });
 
-      this.setState({ employees })
-      console.log(this.state.employees)
-    })
+
+      this.setState({ employees: employees, filteredEmps: employees })
+      // console.log(this.state.employees)
+
+
+    });
+
+
   }
-  
+
+
+  //Sort Information//
+
+  sortEmployees = (e) => {
+
+    console.log("sort employee")
+
+
+    const sort = (a, b) => {
+      if (a.first < b.first) { return -this.state.sortOrder }
+      if (a.first > b.first) { return this.state.sortOrder }
+      return 0;
+
+    }
+    this.setState({
+      filteredEmps: this.state.filteredEmps.sort(sort),
+      sortOrder: -this.state.sortOrder
+    })
+
+  }
+
+  handleChange = e => {
+    const userInput = e.target.value
+    console.log(userInput)
+    const filter = (arr, val) => {
+      return arr.filter(emp => emp.first.includes(val))
+    }
+
+    this.setState({ filteredEmps: filter(this.state.employees, userInput) })
+  }
+
+
+
   // remove employees//
   removeEmployee = id => {
 
-    const employees = this.state.employees.filter(employee => employee.id !== id);
-
+    const employees = this.state.employees.filter(employees => employees.id !== id);
+ console.log (employees)
+ 
     this.setState({ employees });
   };
-// sort employees//
-  sortEmployees = (e) => {
-    console.log("sort employee")
-  }
+
+
 
   //render information 
   render() {
+    
     return (
       <Wrapper>
-        <Title sort={this.sortEmployees}>Employee Directory</Title>
-        {this.state.employees.map(employee => (
+        <Title sort={this.sortEmployees} handleChange={this.handleChange}>Employee Directory</Title>
+        {/* <Form /> */}
+        {this.state.filteredEmps.map(employee => (
           <EmployeeCard
             removeEmployee={this.removeEmployee}
-            id={employee.id}
+           
+            
+
+
             key={employee.id}
             first={employee.first}
             last={employee.last}
             gender={employee.gender}
             image={employee.picture}
+            id={employee.id}
             email={employee.email}
             age={employee.age}
           />
