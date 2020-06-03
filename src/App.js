@@ -72,14 +72,14 @@ class App extends Component {
 
 
 
-  // remove employees//
-//   removeEmployee = id => {
+  //remove employees//
+  removeEmployee = id => {
 
-//     const employees = this.state.employees.filter(employees => employees.id !== id);
-//  console.log (employees)
+    const employees = this.state.employees.filter(employees => employees.id !== id);
+ console.log (employees)
  
-//     this.setState({ employees });
-//   };
+    this.setState({ employees });
+  };
 
 
 
@@ -92,7 +92,7 @@ class App extends Component {
         {/* <Form /> */}
         {this.state.filteredEmps.map(employee => (
           <EmployeeCard
-            // removeEmployee={this.removeEmployee}
+            removeEmployee={this.removeEmployee}
            
             
 
